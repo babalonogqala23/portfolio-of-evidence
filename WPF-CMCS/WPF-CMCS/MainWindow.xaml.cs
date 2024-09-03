@@ -25,6 +25,11 @@ namespace WPF_CMCS
             this.Background = new SolidColorBrush(Color.FromRgb(18, 18, 18));
             
         }
+        private void ApplyLightMode()
+        {
+            this.Background = new SolidColorBrush(Colors.White);
+           
+        }
 
     }
 }
