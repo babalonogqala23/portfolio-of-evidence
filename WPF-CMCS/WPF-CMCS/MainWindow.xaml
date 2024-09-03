@@ -1,4 +1,5 @@
-﻿<Window x:Class="WPF-CMCS.MainWindow"
+﻿
+    <Window x:Class="WPF_CMCS.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Contract Monthly Claim System" Height="600" Width="800">
