@@ -15,7 +15,14 @@
                             </Grid>
                         </Border>
                         <ControlTemplate.Triggers>
-                    
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="ellipse" Property="HorizontalAlignment" Value="Right"/>
+                                <Setter TargetName="border" Property="Background" Value="#FF365880"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
     </Window.Resources>
 
