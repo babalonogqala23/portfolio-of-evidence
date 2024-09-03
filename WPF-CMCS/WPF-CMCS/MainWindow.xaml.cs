@@ -20,5 +20,11 @@ namespace WPF_CMCS
         {
             InitializeComponent();
         }
+        private void ApplyDarkMode()
+        {
+            this.Background = new SolidColorBrush(Color.FromRgb(18, 18, 18));
+            
+        }
+
     }
 }
