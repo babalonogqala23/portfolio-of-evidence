@@ -69,6 +69,7 @@
                     <TextBlock Text="Supporting Documents"/>
                     <Button Content="Upload Files" Margin="0,5,0,15" Padding="5" Click="UploadButton_Click"/>
                     <Button Content="Submit Claim" Background="#FF2196F3" Foreground="White" Padding="10,5" Click="SubmitClaimButton_Click"/>
+
                 </StackPanel>
             </Border>
 
