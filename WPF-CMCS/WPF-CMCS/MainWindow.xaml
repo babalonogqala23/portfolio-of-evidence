@@ -1,12 +1,93 @@
-﻿<Window x:Class="WPF_CMCS.MainWindow"
+﻿<Window x:Class="WPF-CMCS.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WPF_CMCS"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="Contract Monthly Claim System" Height="600" Width="800">
+    <Window.Resources>
+        <Style x:Key="DarkModeButton" TargetType="ToggleButton">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <Border x:Name="border" BorderThickness="1" CornerRadius="20" 
+                                Background="{TemplateBinding Background}">
+                            <Grid>
+                                <Ellipse x:Name="ellipse" Width="20" Height="20" HorizontalAlignment="Left" Margin="2"/>
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                    
+        </Style>
+    </Window.Resources>
 
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Grid Background="#FF2196F3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="CMCS Dashboard" FontSize="24" FontWeight="Bold" Foreground="White" Margin="20,10"/>
+            <ToggleButton x:Name="DarkModeToggle" Grid.Column="1" Width="50" Height="26" Margin="10"
+                          Style="{StaticResource DarkModeButton}" Checked="DarkModeToggle_Checked" Unchecked="DarkModeToggle_Unchecked">
+                <ToggleButton.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Color="#FFFFFFFF" Offset="0"/>
+                        <GradientStop Color="#FF365880" Offset="1"/>
+                    </LinearGradientBrush>
+                </ToggleButton.Background>
+            </ToggleButton>
+        </Grid>
+
+        <!-- Main Content -->
+        <Grid Grid.Row="1" Margin="20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Submit New Claim -->
+            <Border Background="White" CornerRadius="10" Padding="20" Margin="0,0,10,0">
+                <StackPanel>
+                    <TextBlock Text="Submit New Claim" FontSize="18" FontWeight="Bold" Margin="0,0,0,20"/>
+                    <TextBlock Text="Claim Amount"/>
+                    <TextBox x:Name="ClaimAmountTextBox" Margin="0,5,0,15"/>
+                    <TextBlock Text="Description"/>
+                    <TextBox x:Name="DescriptionTextBox" Height="60" TextWrapping="Wrap" AcceptsReturn="True" Margin="0,5,0,15"/>
+                    <TextBlock Text="Supporting Documents"/>
+                    <Button Content="Upload Files" Margin="0,5,0,15" Padding="5" Click="UploadButton_Click"/>
+                    <Button Content="Submit Claim" Background="#FF2196F3" Foreground="White" Padding="10,5" Click="SubmitClaimButton_Click"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Claim Status -->
+            <Border Grid.Column="1" Background="White" CornerRadius="10" Padding="20" Margin="10,0,0,0">
+                <StackPanel>
+                    <TextBlock Text="Claim Status" FontSize="18" FontWeight="Bold" Margin="0,0,0,20"/>
+                    <Border x:Name="ClaimStatusBorder" Background="#FFE3F2FD" Padding="10" CornerRadius="5">
+                        <TextBlock x:Name="ClaimStatusText" Text="No Active Claims" TextWrapping="Wrap"/>
+                    </Border>
+                    <TextBlock Text="Recent Claims" FontSize="16" FontWeight="Bold" Margin="0,20,0,10"/>
+                    <ListBox x:Name="RecentClaimsListBox" Height="150">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="{Binding ClaimNumber}"/>
+                                    <TextBlock Grid.Column="1" Text="{Binding Status}" Foreground="{Binding StatusColor}"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </StackPanel>
+            </Border>
+        </Grid>
     </Grid>
 </Window>
