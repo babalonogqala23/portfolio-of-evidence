@@ -16,62 +16,23 @@ namespace WPF_CMCS
         public MainWindow()
         {
             InitializeComponent();
-            PopulateRecentClaims();
         }
-   
-        private void DarkModeToggle_Checked(object sender, RoutedEventArgs e)
+
+        private void ClaimsButton_Click(object sender, RoutedEventArgs e)
         {
-            ApplyDarkMode();
+            new ClaimWindow().Show();
         }
 
-        private void DarkModeToggle_Unchecked(object sender, RoutedEventArgs e)
+        private void UserManagementButton_Click(object sender, RoutedEventArgs e)
         {
-            ApplyLightMode();
+            new UserManagementWindow().Show();
         }
-        private void UploadButton_Click(object sender, RoutedEventArgs e)
+
+        private void ApprovalProcessButton_Click(object sender, RoutedEventArgs e)
         {
-            // Handle the upload functionality here
-            MessageBox.Show("Upload Button Clicked");
+            new ApprovalProcessWindow().Show();
         }
-
-        private void SubmitClaimButton_Click(object sender, RoutedEventArgs e)
-        {
-            // Handle the submit functionality here
-            MessageBox.Show("Submit Claim Button Clicked");
-        }
-
-
-        private void ApplyDarkMode()
-        {
-            this.Background = new SolidColorBrush(Color.FromRgb(18, 18, 18));
-            // Apply dark mode styles to other controls
-        }
-
-        private void ApplyLightMode()
-        {
-            this.Background = new SolidColorBrush(Colors.White);
-            // Apply light mode styles to other controls
-        }
-        private void PopulateRecentClaims()
-        {
-            // Example data population logic
-            var claims = new List<Claim>
-    {
-        new Claim { ClaimNumber = "12345", Status = "Pending", StatusColor = Brushes.Orange },
-        new Claim { ClaimNumber = "67890", Status = "Approved", StatusColor = Brushes.Green }
-    };
-
-            RecentClaimsListBox.ItemsSource = claims;
-        }
-
-        public class Claim
-        {
-            public string ClaimNumber { get; set; }
-            public string Status { get; set; }
-            public Brush StatusColor { get; set; }
-        }
-
-
     }
+
 }
         
