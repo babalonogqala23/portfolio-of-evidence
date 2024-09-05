@@ -1,71 +1,53 @@
- Contract Monthly Claim System (CMCS) Documentation
- Introduction
- 
-The Contract Monthly Claim System (CMCS) is a .NET web-based application designed to streamline the process of submitting and approving monthly claims for Independent Contractor (IC) lecturers. This system provides a user-friendly interface for lecturers, Programme Coordinators, and Academic Managers to manage the claims process efficiently. The CMCS is developed as part of the Programming 2B module (PROG6212) at The Independent Institute of Education, aiming to enhance the practical skills of students in C# programming and .NET GUI development.
- 
-Project Overview
-Objectives
- 
-This project's main objective is to develop a practical .NET application that enables the automation and management of the claim submission process. The project is divided into three main parts, each focusing on different aspects of the system's development:
- 
-1. Project Planning and Prototype Development: This includes the design of the system's architecture, the creation of UML diagrams, and the development of a non-functional GUI prototype.
-2. Implementation of a Functional Web Application: Adding features to the prototype, such as claim submission, document upload, and status tracking.
-3. Automation and Enhancement: Improving the application's functionalities, automating tasks, and preparing a presentation to showcase the system.
- 
- Project Planning and Prototype Development
- Design Choices
- the design of the CMCS was planned with a focus on user experience and system functionality. The database structure was designed to store and manage claim data efficiently, while the GUI layout was created to ensure ease of use for all users.
- 
-•	Database Structure: The database is modeled using a UML class diagram that represents the various entities involved in the claim process, including lecturers, claims, and supporting documents.
-•	GUI Layout: The user interface was designed using Windows Presentation Forms or MVC, providing a clear and intuitive layout for users to interact with the system.
- 
- UML Class Diagram
+Documentation
+ Contract Monthly Claim System (CMCS) - Part 1 Documentation:
+Welcome to the Portfolio of Evidence (PoE) part 1 for PROG6212. In this section, I will develop a .NET application using WPF in C# to create the Contract Monthly Claim System (CMCS). This system simplifies the submission and approval of monthly claims for Independent Contractor (IC) lecturers, incorporating complex calculations and document uploads. Through hands-on tasks, you'll design and implement an intuitive user interface, enhancing both efficiency and accuracy. By the end, I will be proficient in WPF GUI development, and have a proficient application ready for deployment.
+1. Design Choices and Structure
+Database Structure
+The CMCS uses a relational database with the following main entities:
+•	User: Stores information about lecturers, programme coordinators, and academic managers.
+•	Claim: Represents a monthly claim submitted by a lecturer.
+•	ClaimDetails: Contains specific details of each claim, such as hours worked and hourly rate.
+•	ClaimType: Defines different types of claims (e.g., regular hours, overtime).
+•	Approval: Tracks the approval status and process for each claim.
+GUI Layout
+The CMCS GUI is designed using Windows Presentation Foundation (WPF) and consists of the following main windows:
+•	Main Window: Serves as the entry point and navigation hub.
+•	Claims Management: Allows lecturers to submit and track claims.
+•	User Management: Enables administrators to manage user accounts.
+•	Approval Process: Facilitates claim verification and approval by coordinators and managers.
+2. Assumptions and Constraints
+•	The system assumes that all users have basic computer literacy and can navigate a web-based application.
+•	The application is designed for use within a single educational institution and may require modifications for multi-institution use.
+•	The system relies on accurate input from lecturers and assumes that supporting documents are genuine.
+•	The application is constrained by the security measures of the .NET framework and the hosting environment.
+ 3. How to Run and Install the App
+ Prerequisites
+•	Windows 10 or later
+•	.NET Framework 4.7.2 or later
+•	Visual Studio 2019 or later (for development)
+ Installation Steps
+1. Clone the repository from GitHub: git clone “https://github.com/babalonogqala23/portfolio-of-evidence.git”
+2. Open the solution file `CMCS.sln` in Visual Studio.
+3. Restore NuGet packages by right-clicking on the solution and selecting "Restore NuGet Packages".
+4. Build the solution by clicking on "Build" > "Build Solution" in the top menu.
+ Running the Application
+1. In Visual Studio, set the `CMCS.WPF` project as the startup project.
+2. Press F5 or click the "Start" button to run the application.
+3. The main window of the CMCS application should appear.
 
-1. Users (Lecturers, Programe Coordinators, Academic Managers)
-2. Claims
-3. ClaimItems
-4. SupportingDocuments
-5. ApprovalWorkflows
-6. Notifications
-7. AuditLogs
- 
-The database will use advanced features such as:
-•	Temporal tables for historical tracking of claim statuses
-•	 Full-text search for efficient document retrieval
-•	 Partitioning for improved query performance on large datasets
- 
- Project Plan
- 
-A detailed project plan was developed, outlining the tasks, dependencies, and timeline for each phase of the project. The plan ensures that the development process is realistic and achievable within the given timeframe.
- 
- GUI Prototype
- 
-The prototype of the GUI includes the following features:
- 
-•	Claim Submission: A form where lecturers can input their hours worked and hourly rate and submit their claims.
-•	Approval Process: Views for Programme Coordinators and Academic Managers to verify and approve claims.
-•	Document Upload: A feature that allows lecturers to upload supporting documents with their claims.
- 
- Assumptions and Constraints:
-Assumption: application is user friendly and responsive.
-Constraint: The system must comply with GDPR and other relevant data protection regulations.
-Assumption: The system will handle up to 100 active users and 1,000 claims per month.
-Constraint: The application must maintain 99.9% uptime.
-Assumption: Integration with existing HR and payroll systems will be required.
+main window
+![Screenshot (9)](https://github.com/user-attachments/assets/d70aee42-6456-4dd3-a20a-8ec7e77a61a9)
 
-Rationale for Design Decisions
-1. Modular Architecture: Enables easier maintenance and scalability.
-2. Advanced Database Features: Improves performance and data integrity.
-3. Responsive Design: Ensures usability across various devices.
-4. Accessibility and Localization: Broadens the potential user base.
-5. Microinteractions: Enhances user engagement and provides visual feedback.
+submit claim
+![Screenshot (10)](https://github.com/user-attachments/assets/dc063003-cf32-4fc2-be11-325bd6fa6f0d)
 
- Conclusion
- 
-The CMCS project demonstrates the practical application of C# and .NET Core in developing a real-world web application. Through this project, students gained valuable experience in software development, from initial planning and design to implementation and enhancement. The final system provides a robust solution for managing the claim submission process, offering significant benefits in terms of efficiency and user satisfaction.
+user information
+![Screenshot (11)](https://github.com/user-attachments/assets/49f3324a-f2b4-452c-a650-b0c2de12936b)
 
-how to set up the app:
-1. download vs studio
-2. download the zip folder or clone the repo
-3. open the folder on your IDE
-4. build and run the app
+approval page
+![Screenshot (12)](https://github.com/user-attachments/assets/210c59a7-aeea-43f5-980e-e19928be4757)
+
+
+
+
+
