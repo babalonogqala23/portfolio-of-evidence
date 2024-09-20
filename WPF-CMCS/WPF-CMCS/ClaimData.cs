@@ -14,3 +14,4 @@ using System.Threading.Tasks;
             public static ObservableCollection<Claim> Claims { get; } = new ObservableCollection<Claim>();
         }
     }
+
