@@ -1,53 +1,109 @@
-Documentation
- Contract Monthly Claim System (CMCS) - Part 1 Documentation:
-Welcome to the Portfolio of Evidence (PoE) part 1 for PROG6212. In this section, I will develop a .NET application using WPF in C# to create the Contract Monthly Claim System (CMCS). This system simplifies the submission and approval of monthly claims for Independent Contractor (IC) lecturers, incorporating complex calculations and document uploads. Through hands-on tasks, you'll design and implement an intuitive user interface, enhancing both efficiency and accuracy. By the end, I will be proficient in WPF GUI development, and have a proficient application ready for deployment.
-1. Design Choices and Structure
-Database Structure
-The CMCS uses a relational database with the following main entities:
-•	User: Stores information about lecturers, programme coordinators, and academic managers.
-•	Claim: Represents a monthly claim submitted by a lecturer.
-•	ClaimDetails: Contains specific details of each claim, such as hours worked and hourly rate.
-•	ClaimType: Defines different types of claims (e.g., regular hours, overtime).
-•	Approval: Tracks the approval status and process for each claim.
-GUI Layout
-The CMCS GUI is designed using Windows Presentation Foundation (WPF) and consists of the following main windows:
-•	Main Window: Serves as the entry point and navigation hub.
-•	Claims Management: Allows lecturers to submit and track claims.
-•	User Management: Enables administrators to manage user accounts.
-•	Approval Process: Facilitates claim verification and approval by coordinators and managers.
-2. Assumptions and Constraints
-•	The system assumes that all users have basic computer literacy and can navigate a web-based application.
-•	The application is designed for use within a single educational institution and may require modifications for multi-institution use.
-•	The system relies on accurate input from lecturers and assumes that supporting documents are genuine.
-•	The application is constrained by the security measures of the .NET framework and the hosting environment.
- 3. How to Run and Install the App
- Prerequisites
-•	Windows 10 or later
-•	.NET Framework 4.7.2 or later
-•	Visual Studio 2019 or later (for development)
- Installation Steps
-1. Clone the repository from GitHub: git clone “https://github.com/babalonogqala23/portfolio-of-evidence.git”
-2. Open the solution file `CMCS.sln` in Visual Studio.
-3. Restore NuGet packages by right-clicking on the solution and selecting "Restore NuGet Packages".
-4. Build the solution by clicking on "Build" > "Build Solution" in the top menu.
- Running the Application
-1. In Visual Studio, set the `CMCS.WPF` project as the startup project.
-2. Press F5 or click the "Start" button to run the application.
-3. The main window of the CMCS application should appear.
+# Contract Monthly Claim System (CMCS) - Updated Documentation
 
-main window
-![Screenshot (9)](https://github.com/user-attachments/assets/d70aee42-6456-4dd3-a20a-8ec7e77a61a9)
+## 4. Implementation of Recommendations
 
-submit claim
-![Screenshot (10)](https://github.com/user-attachments/assets/dc063003-cf32-4fc2-be11-325bd6fa6f0d)
+Based on the feedback received, the following improvements have been made to the CMCS:
 
-user information
-![Screenshot (11)](https://github.com/user-attachments/assets/49f3324a-f2b4-452c-a650-b0c2de12936b)
+### 4.1 Data Sharing Between Windows
 
-approval page
-![Screenshot (12)](https://github.com/user-attachments/assets/210c59a7-aeea-43f5-980e-e19928be4757)
+To address the issue of claims not appearing in the Approval Process window after submission, we implemented a centralized data storage mechanism:
 
+1. Created a static `ClaimData` class to store and share claim data across windows:
 
+```csharp
+public static class ClaimData
+{
+    public static ObservableCollection<Claim> Claims { get; } = new ObservableCollection<Claim>();
+}
+```
 
+2. Updated `ClaimWindow.xaml.cs` to use the shared data:
+   - Modified the constructor to set the `ItemsSource` of `ClaimsListView`:
+     ```csharp
+     ClaimsListView.ItemsSource = ClaimData.Claims;
+     ```
+   - Updated the `SubmitClaimButton_Click` method to add new claims to the shared collection:
+     ```csharp
+     ClaimData.Claims.Add(newClaim);
+     ```
 
+3. Updated `ApprovalProcessWindow.xaml.cs` to load pending claims from the shared data:
+   ```csharp
+   private void LoadPendingClaims()
+   {
+       var pendingClaims = ClaimData.Claims.Where(c => c.Status == "Pending").ToList();
+       PendingClaimsListView.ItemsSource = pendingClaims;
+   }
+   ```
 
+### 4.2 Improved Error Handling
+
+Enhanced error handling in the `ClaimWindow` to provide more informative messages to users:
+
+```csharp
+try
+{
+    // ... (claim submission logic)
+}
+catch (ArgumentException ex)
+{
+    MessageBox.Show(ex.Message, "Invalid Input", MessageBoxButton.OK, MessageBoxImage.Warning);
+}
+catch (Exception ex)
+{
+    MessageBox.Show($"An unexpected error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+    // TODO: Log the exception for further investigation
+}
+```
+
+### 4.3 Initialization of Windows
+
+Ensured proper initialization of windows to address visibility issues:
+
+1. Updated `ClaimWindow` constructor:
+   ```csharp
+   public ClaimWindow()
+   {
+       InitializeComponent();
+       LoadClaimTypes();
+       ClaimsListView.ItemsSource = ClaimData.Claims;
+   }
+   ```
+
+2. Modified `MainWindow.xaml.cs` to open `ClaimWindow` as a dialog:
+   ```csharp
+   private void ClaimsButton_Click(object sender, RoutedEventArgs e)
+   {
+       try
+       {
+           ClaimWindow claimWindow = new ClaimWindow();
+           claimWindow.Owner = this;
+           claimWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+           claimWindow.ShowDialog();
+       }
+       catch (Exception ex)
+       {
+           MessageBox.Show($"Error opening Claim Window: {ex.Message}\n\nStack Trace: {ex.StackTrace}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+       }
+   }
+   ```
+
+### 4.4 Enhanced UI Responsiveness
+
+Implemented data binding and `ObservableCollection` to ensure UI updates reflect data changes:
+
+1. Used `ObservableCollection<Claim>` in `ClaimData` class.
+2. Set `ItemsSource` of ListViews to bind to the shared data collection.
+3. Refresh ListViews after approving or rejecting claims in `ApprovalProcessWindow`.
+
+## 5. Known Issues and Future Improvements
+
+- Implement proper user authentication and authorization.
+- Add data persistence using a database or file storage.
+- Enhance the file upload feature with progress indication and validation.
+- Implement more robust error logging and handling.
+- Add unit tests to ensure code reliability and facilitate future updates.
+
+## 6. Conclusion
+
+The implemented recommendations have significantly improved the CMCS application's functionality and user experience. The system now effectively shares data between windows, handles errors more gracefully, and provides a more responsive user interface. Future developments will focus on enhancing security, data persistence, and overall robustness of the application.
