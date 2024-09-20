@@ -5,13 +5,9 @@ using System.IO;
 
 namespace WPF_CMCS
 {
-
     public partial class ClaimWindow : Window
-
     {
-
         private string? uploadedFilePath;
-
 
         public ClaimWindow()
         {
@@ -62,13 +58,26 @@ namespace WPF_CMCS
 
                 if (!string.IsNullOrEmpty(uploadedFilePath))
                 {
-                    // TODO: Save the uploaded file to a secure location and associate it with the claim
-                    var destinationPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Uploads", $"Claim_{newClaim.Id}_{Path.GetFileName(uploadedFilePath)}");
+                    string uploadsFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Uploads");
+
+                    // Create the Uploads directory if it doesn't exist
+                    if (!Directory.Exists(uploadsFolder))
+                    {
+                        Directory.CreateDirectory(uploadsFolder);
+                    }
+
+                    string fileName = Path.GetFileName(uploadedFilePath);
+                    string destinationPath = Path.Combine(uploadsFolder, $"Claim_{newClaim.Id}_{fileName}");
+
                     File.Copy(uploadedFilePath, destinationPath, true);
                 }
 
                 MessageBox.Show("Claim submitted successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 ClearForm();
+            }
+            catch (IOException ioEx)
+            {
+                MessageBox.Show($"Error saving the uploaded file: {ioEx.Message}", "File Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (ArgumentException ex)
             {
@@ -80,10 +89,6 @@ namespace WPF_CMCS
                 // TODO: Log the exception for further investigation
             }
         }
-
-       
-
-       
 
         private void UploadDocumentButton_Click(object sender, RoutedEventArgs e)
         {
@@ -98,10 +103,7 @@ namespace WPF_CMCS
                 uploadedFilePath = openFileDialog.FileName;
                 UploadedFileNameLabel.Content = Path.GetFileName(uploadedFilePath);
             }
-
         }
-
-        
 
         private void ClearForm()
         {
