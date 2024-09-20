@@ -1,45 +1,65 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace WPF_CMCS
 {
-    /// <summary>
-    /// Interaction logic for ApprovalProcessWindow.xaml
-    /// </summary>
-   
-        public partial class ApprovalProcessWindow : Window
+    public partial class ApprovalProcessWindow : Window
+    {
+        public ApprovalProcessWindow()
         {
-            public ApprovalProcessWindow()
-            {
-                InitializeComponent();
-                // TODO: Load pending claims into PendingClaimsListView
-            }
+            InitializeComponent();
+            LoadPendingClaims();
+        }
 
-            private void ApproveButton_Click(object sender, RoutedEventArgs e)
-            {
-                // TODO: Implement approve claim logic
-            }
+        private void LoadPendingClaims()
+        {
+            var pendingClaims = ClaimData.Claims.Where(c => c.Status == "Pending").ToList();
+            PendingClaimsListView.ItemsSource = pendingClaims;
+        }
 
-            private void RejectButton_Click(object sender, RoutedEventArgs e)
+        private void ApproveButton_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedClaim = PendingClaimsListView.SelectedItem as Claim;
+            if (selectedClaim != null)
             {
-                // TODO: Implement reject claim logic
+                selectedClaim.Status = "Approved";
+                LoadPendingClaims();
+                MessageBox.Show("Claim approved successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             }
+            else
+            {
+                MessageBox.Show("Please select a claim to approve.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
 
-            private void RequestInfoButton_Click(object sender, RoutedEventArgs e)
+        private void RejectButton_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedClaim = PendingClaimsListView.SelectedItem as Claim;
+            if (selectedClaim != null)
+            {
+                selectedClaim.Status = "Rejected";
+                LoadPendingClaims();
+                MessageBox.Show("Claim rejected successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else
+            {
+                MessageBox.Show("Please select a claim to reject.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+
+        private void RequestInfoButton_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedClaim = PendingClaimsListView.SelectedItem as Claim;
+            if (selectedClaim != null)
             {
                 // TODO: Implement request more information logic
+                MessageBox.Show("Additional information requested for the selected claim.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else
+            {
+                MessageBox.Show("Please select a claim to request more information.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
     }
-
+}

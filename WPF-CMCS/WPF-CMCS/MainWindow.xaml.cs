@@ -1,18 +1,11 @@
-﻿using System.Text;
+﻿using System;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace WPF_CMCS
 {
     public partial class MainWindow : Window
     {
+        
         public MainWindow()
         {
             InitializeComponent();
@@ -20,8 +13,20 @@ namespace WPF_CMCS
 
         private void ClaimsButton_Click(object sender, RoutedEventArgs e)
         {
-            new ClaimWindow().Show();
+            try
+            {
+                ClaimWindow claimWindow = new ClaimWindow();
+                claimWindow.Owner = this;
+                claimWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+                claimWindow.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error opening Claim Window: {ex.Message}\n\nStack Trace: {ex.StackTrace}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
+
+       
 
         private void UserManagementButton_Click(object sender, RoutedEventArgs e)
         {
@@ -33,6 +38,4 @@ namespace WPF_CMCS
             new ApprovalProcessWindow().Show();
         }
     }
-
 }
-        
