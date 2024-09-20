@@ -1,71 +1,109 @@
- Contract Monthly Claim System (CMCS) Documentation
- Introduction
- 
-The Contract Monthly Claim System (CMCS) is a .NET web-based application designed to streamline the process of submitting and approving monthly claims for Independent Contractor (IC) lecturers. This system provides a user-friendly interface for lecturers, Programme Coordinators, and Academic Managers to manage the claims process efficiently. The CMCS is developed as part of the Programming 2B module (PROG6212) at The Independent Institute of Education, aiming to enhance the practical skills of students in C# programming and .NET GUI development.
- 
-Project Overview
-Objectives
- 
-This project's main objective is to develop a practical .NET application that enables the automation and management of the claim submission process. The project is divided into three main parts, each focusing on different aspects of the system's development:
- 
-1. Project Planning and Prototype Development: This includes the design of the system's architecture, the creation of UML diagrams, and the development of a non-functional GUI prototype.
-2. Implementation of a Functional Web Application: Adding features to the prototype, such as claim submission, document upload, and status tracking.
-3. Automation and Enhancement: Improving the application's functionalities, automating tasks, and preparing a presentation to showcase the system.
- 
- Project Planning and Prototype Development
- Design Choices
- the design of the CMCS was planned with a focus on user experience and system functionality. The database structure was designed to store and manage claim data efficiently, while the GUI layout was created to ensure ease of use for all users.
- 
-•	Database Structure: The database is modeled using a UML class diagram that represents the various entities involved in the claim process, including lecturers, claims, and supporting documents.
-•	GUI Layout: The user interface was designed using Windows Presentation Forms or MVC, providing a clear and intuitive layout for users to interact with the system.
- 
- UML Class Diagram
+# Contract Monthly Claim System (CMCS) - Updated Documentation
 
-1. Users (Lecturers, Programe Coordinators, Academic Managers)
-2. Claims
-3. ClaimItems
-4. SupportingDocuments
-5. ApprovalWorkflows
-6. Notifications
-7. AuditLogs
- 
-The database will use advanced features such as:
-•	Temporal tables for historical tracking of claim statuses
-•	 Full-text search for efficient document retrieval
-•	 Partitioning for improved query performance on large datasets
- 
- Project Plan
- 
-A detailed project plan was developed, outlining the tasks, dependencies, and timeline for each phase of the project. The plan ensures that the development process is realistic and achievable within the given timeframe.
- 
- GUI Prototype
- 
-The prototype of the GUI includes the following features:
- 
-•	Claim Submission: A form where lecturers can input their hours worked and hourly rate and submit their claims.
-•	Approval Process: Views for Programme Coordinators and Academic Managers to verify and approve claims.
-•	Document Upload: A feature that allows lecturers to upload supporting documents with their claims.
- 
- Assumptions and Constraints:
-Assumption: application is user friendly and responsive.
-Constraint: The system must comply with GDPR and other relevant data protection regulations.
-Assumption: The system will handle up to 100 active users and 1,000 claims per month.
-Constraint: The application must maintain 99.9% uptime.
-Assumption: Integration with existing HR and payroll systems will be required.
+## 4. Implementation of Recommendations
 
-Rationale for Design Decisions
-1. Modular Architecture: Enables easier maintenance and scalability.
-2. Advanced Database Features: Improves performance and data integrity.
-3. Responsive Design: Ensures usability across various devices.
-4. Accessibility and Localization: Broadens the potential user base.
-5. Microinteractions: Enhances user engagement and provides visual feedback.
+Based on the feedback received, the following improvements have been made to the CMCS:
 
- Conclusion
- 
-The CMCS project demonstrates the practical application of C# and .NET Core in developing a real-world web application. Through this project, students gained valuable experience in software development, from initial planning and design to implementation and enhancement. The final system provides a robust solution for managing the claim submission process, offering significant benefits in terms of efficiency and user satisfaction.
+### 4.1 Data Sharing Between Windows
 
-how to set up the app:
-1. download vs studio
-2. download the zip folder or clone the repo
-3. open the folder on your IDE
-4. build and run the app
+To address the issue of claims not appearing in the Approval Process window after submission, we implemented a centralized data storage mechanism:
+
+1. Created a static `ClaimData` class to store and share claim data across windows:
+
+```csharp
+public static class ClaimData
+{
+    public static ObservableCollection<Claim> Claims { get; } = new ObservableCollection<Claim>();
+}
+```
+
+2. Updated `ClaimWindow.xaml.cs` to use the shared data:
+   - Modified the constructor to set the `ItemsSource` of `ClaimsListView`:
+     ```csharp
+     ClaimsListView.ItemsSource = ClaimData.Claims;
+     ```
+   - Updated the `SubmitClaimButton_Click` method to add new claims to the shared collection:
+     ```csharp
+     ClaimData.Claims.Add(newClaim);
+     ```
+
+3. Updated `ApprovalProcessWindow.xaml.cs` to load pending claims from the shared data:
+   ```csharp
+   private void LoadPendingClaims()
+   {
+       var pendingClaims = ClaimData.Claims.Where(c => c.Status == "Pending").ToList();
+       PendingClaimsListView.ItemsSource = pendingClaims;
+   }
+   ```
+
+### 4.2 Improved Error Handling
+
+Enhanced error handling in the `ClaimWindow` to provide more informative messages to users:
+
+```csharp
+try
+{
+    // ... (claim submission logic)
+}
+catch (ArgumentException ex)
+{
+    MessageBox.Show(ex.Message, "Invalid Input", MessageBoxButton.OK, MessageBoxImage.Warning);
+}
+catch (Exception ex)
+{
+    MessageBox.Show($"An unexpected error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+    // TODO: Log the exception for further investigation
+}
+```
+
+### 4.3 Initialization of Windows
+
+Ensured proper initialization of windows to address visibility issues:
+
+1. Updated `ClaimWindow` constructor:
+   ```csharp
+   public ClaimWindow()
+   {
+       InitializeComponent();
+       LoadClaimTypes();
+       ClaimsListView.ItemsSource = ClaimData.Claims;
+   }
+   ```
+
+2. Modified `MainWindow.xaml.cs` to open `ClaimWindow` as a dialog:
+   ```csharp
+   private void ClaimsButton_Click(object sender, RoutedEventArgs e)
+   {
+       try
+       {
+           ClaimWindow claimWindow = new ClaimWindow();
+           claimWindow.Owner = this;
+           claimWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+           claimWindow.ShowDialog();
+       }
+       catch (Exception ex)
+       {
+           MessageBox.Show($"Error opening Claim Window: {ex.Message}\n\nStack Trace: {ex.StackTrace}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+       }
+   }
+   ```
+
+### 4.4 Enhanced UI Responsiveness
+
+Implemented data binding and `ObservableCollection` to ensure UI updates reflect data changes:
+
+1. Used `ObservableCollection<Claim>` in `ClaimData` class.
+2. Set `ItemsSource` of ListViews to bind to the shared data collection.
+3. Refresh ListViews after approving or rejecting claims in `ApprovalProcessWindow`.
+
+## 5. Known Issues and Future Improvements
+
+- Implement proper user authentication and authorization.
+- Add data persistence using a database or file storage.
+- Enhance the file upload feature with progress indication and validation.
+- Implement more robust error logging and handling.
+- Add unit tests to ensure code reliability and facilitate future updates.
+
+## 6. Conclusion
+
+The implemented recommendations have significantly improved the CMCS application's functionality and user experience. The system now effectively shares data between windows, handles errors more gracefully, and provides a more responsive user interface. Future developments will focus on enhancing security, data persistence, and overall robustness of the application.
