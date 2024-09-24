@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace WPF_CMCS
 {
-    public partial class ClaimWindow : Window
+    public partial class LecturerView : UserControl
     {
-        public ClaimWindow()
+        public LecturerView()
         {
             InitializeComponent();
             ClaimsListView.ItemsSource = ClaimData.Claims;
         }
-
         private void CalculatePayment_Click(object sender, RoutedEventArgs e)
         {
             if (double.TryParse(HoursWorkedTextBox.Text, out double hours) &&
@@ -25,7 +25,9 @@ namespace WPF_CMCS
             }
         }
 
-        private void SubmitClaimButton_Click(object sender, RoutedEventArgs e)
+        
+
+        private void SubmitClaim_Click(object sender, RoutedEventArgs e)
         {
             if (ValidateInput())
             {
@@ -42,10 +44,8 @@ namespace WPF_CMCS
                 ClaimData.Claims.Add(newClaim);
                 MessageBox.Show("Claim submitted successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 ClearForm();
-                ClaimsListView.Items.Refresh();
             }
         }
-
         private bool ValidateInput()
         {
             if (string.IsNullOrWhiteSpace(LecturerNameTextBox.Text))

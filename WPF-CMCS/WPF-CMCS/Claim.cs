@@ -20,9 +20,15 @@ namespace WPF_CMCS
             }
         }
 
-        public string? Type { get; set; }
+       
+        public string? LecturerName { get; set; }
         public double Hours { get; set; }
         public double Rate { get; set; }
+        public double TotalPayment { get; set; }
         public string? Status { get; set; }
+
+
+
+
     }
 }

@@ -1,42 +1,38 @@
-﻿
-    <Window x:Class="WPF_CMCS.MainWindow"
+﻿<Window x:Class="WPF_CMCS.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Contract Monthly Claim System" Height="450" Width="800"
         Background="#F0F0F0">
-        <Window.Resources>
-            <Style x:Key="MenuButtonStyle" TargetType="Button">
-                <Setter Property="Width" Value="200"/>
-                <Setter Property="Height" Value="50"/>
-                <Setter Property="Margin" Value="10"/>
-                <Setter Property="Background" Value="#3498db"/>
-                <Setter Property="Foreground" Value="White"/>
-                <Setter Property="FontSize" Value="16"/>
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="Button">
-                            <Border Background="{TemplateBinding Background}" CornerRadius="25">
-                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            </Border>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-                <Style.Triggers>
-                    <Trigger Property="IsMouseOver" Value="True">
-                        <Setter Property="Background" Value="#2980b9"/>
-                    </Trigger>
-                </Style.Triggers>
-            </Style>
-        </Window.Resources>
-
-        <Grid>
-            <StackPanel VerticalAlignment="Center">
-                <TextBlock Text="Contract Monthly Claim System" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,20"/>
-                <Button Content="Claims" Style="{StaticResource MenuButtonStyle}" Click="ClaimsButton_Click"/>
-                <Button Content="User Management" Style="{StaticResource MenuButtonStyle}" Click="UserManagementButton_Click"/>
-                <Button Content="Approval Process" Style="{StaticResource MenuButtonStyle}" Click="ApprovalProcessButton_Click"/>
-            </StackPanel>
-        </Grid>
-    </Window>
-
-          
+    <Window.Resources>
+        <Style x:Key="MenuButtonStyle" TargetType="Button">
+            <Setter Property="Width" Value="200"/>
+            <Setter Property="Height" Value="50"/>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="Background" Value="#3498db"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="25">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#2980b9"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <StackPanel VerticalAlignment="Center">
+            <TextBlock Text="Contract Monthly Claim System" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,20"/>
+            <Button Content="Submit Claim" Style="{StaticResource MenuButtonStyle}" Click="OpenClaimWindow_Click"/>
+            <Button Content="Manage Claims" Style="{StaticResource MenuButtonStyle}" Click="OpenManageClaimsWindow_Click"/>
+            <Button Content="HR View" Style="{StaticResource MenuButtonStyle}" Click="OpenHRWindow_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

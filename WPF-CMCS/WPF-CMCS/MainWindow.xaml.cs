@@ -1,41 +1,34 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 
 namespace WPF_CMCS
 {
     public partial class MainWindow : Window
     {
-        
         public MainWindow()
         {
             InitializeComponent();
         }
 
-        private void ClaimsButton_Click(object sender, RoutedEventArgs e)
+        private void OpenClaimWindow_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                ClaimWindow claimWindow = new ClaimWindow();
-                claimWindow.Owner = this;
-                claimWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-                claimWindow.ShowDialog();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error opening Claim Window: {ex.Message}\n\nStack Trace: {ex.StackTrace}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            var claimWindow = new ClaimWindow();
+            claimWindow.Show();
         }
 
-       
-
-        private void UserManagementButton_Click(object sender, RoutedEventArgs e)
+        private void OpenManageClaimsWindow_Click(object sender, RoutedEventArgs e)
         {
-            new UserManagementWindow().Show();
+            var manageClaimsWindow = new Window();
+            manageClaimsWindow.Content = new CoordinatorManagerView();
+            manageClaimsWindow.Title = "Manage Claims";
+            manageClaimsWindow.Show();
         }
 
-        private void ApprovalProcessButton_Click(object sender, RoutedEventArgs e)
+        private void OpenHRWindow_Click(object sender, RoutedEventArgs e)
         {
-            new ApprovalProcessWindow().Show();
+            var hrWindow = new Window();
+            hrWindow.Content = new HRView();
+            hrWindow.Title = "HR View";
+            hrWindow.Show();
         }
     }
 }
