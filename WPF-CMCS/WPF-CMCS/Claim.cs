@@ -26,6 +26,7 @@ namespace WPF_CMCS
         public double Rate { get; set; }
         public double TotalPayment { get; set; }
         public string? Status { get; set; }
+        public string? DocumentPath { get; set; }
 
 
 

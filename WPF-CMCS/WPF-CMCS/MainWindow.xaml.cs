@@ -11,8 +11,8 @@ namespace WPF_CMCS
 
         private void OpenClaimWindow_Click(object sender, RoutedEventArgs e)
         {
-            var claimWindow = new ClaimWindow();
-            claimWindow.Show();
+            var lecturerWindow = new LecturerWindow();
+            lecturerWindow.Show();
         }
 
         private void OpenManageClaimsWindow_Click(object sender, RoutedEventArgs e)

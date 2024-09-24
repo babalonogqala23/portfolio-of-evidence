@@ -1,16 +1,20 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Controls;
+using Microsoft.Win32;
+using System.IO;
 
 namespace WPF_CMCS
 {
-    public partial class LecturerView : UserControl
+    public partial class LecturerWindow : Window
     {
-        public LecturerView()
+        private string uploadedFilePath;
+
+        public LecturerWindow()
         {
             InitializeComponent();
             ClaimsListView.ItemsSource = ClaimData.Claims;
         }
+
         private void CalculatePayment_Click(object sender, RoutedEventArgs e)
         {
             if (double.TryParse(HoursWorkedTextBox.Text, out double hours) &&
@@ -25,9 +29,22 @@ namespace WPF_CMCS
             }
         }
 
-        
+        private void UploadDocument_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Filter = "All files (*.*)|*.*",
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
+            };
 
-        private void SubmitClaim_Click(object sender, RoutedEventArgs e)
+            if (openFileDialog.ShowDialog() == true)
+            {
+                uploadedFilePath = openFileDialog.FileName;
+                DocumentPathTextBox.Text = Path.GetFileName(uploadedFilePath);
+            }
+        }
+
+        private void SubmitClaimButton_Click(object sender, RoutedEventArgs e)
         {
             if (ValidateInput())
             {
@@ -41,11 +58,25 @@ namespace WPF_CMCS
                     Status = "Pending"
                 };
 
+                if (!string.IsNullOrEmpty(uploadedFilePath))
+                {
+                    string destinationPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Uploads");
+                    if (!Directory.Exists(destinationPath))
+                    {
+                        Directory.CreateDirectory(destinationPath);
+                    }
+                    string fileName = $"Claim_{newClaim.Id}_{Path.GetFileName(uploadedFilePath)}";
+                    File.Copy(uploadedFilePath, Path.Combine(destinationPath, fileName), true);
+                    newClaim.DocumentPath = fileName;
+                }
+
                 ClaimData.Claims.Add(newClaim);
                 MessageBox.Show("Claim submitted successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 ClearForm();
+                ClaimsListView.Items.Refresh();
             }
         }
+
         private bool ValidateInput()
         {
             if (string.IsNullOrWhiteSpace(LecturerNameTextBox.Text))
@@ -75,6 +106,8 @@ namespace WPF_CMCS
             HoursWorkedTextBox.Clear();
             HourlyRateTextBox.Clear();
             PaymentResultTextBlock.Text = string.Empty;
+            DocumentPathTextBox.Clear();
+            uploadedFilePath = null;
         }
     }
 }
