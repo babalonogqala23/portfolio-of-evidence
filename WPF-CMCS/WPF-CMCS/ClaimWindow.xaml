@@ -1,10 +1,19 @@
 ﻿<Window x:Class="WPF_CMCS.ClaimWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Submit Claim" Height="600" Width="800">
+        Title="Submit Claim" Height="700" Width="800">
     <Grid>
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <StackPanel Margin="20">
+                <TextBlock Text="First Name:" Margin="0,0,0,5"/>
+                <TextBox x:Name="FirstNameTextBox" Margin="0,0,0,15"/>
+
+                <TextBlock Text="Last Name:" Margin="0,0,0,5"/>
+                <TextBox x:Name="LastNameTextBox" Margin="0,0,0,15"/>
+
+                <TextBlock Text="Age:" Margin="0,0,0,5"/>
+                <TextBox x:Name="AgeTextBox" Margin="0,0,0,15"/>
+
                 <TextBlock Text="Claim Type:" Margin="0,0,0,5"/>
                 <ComboBox x:Name="ClaimTypeComboBox" Margin="0,0,0,15"/>
 
@@ -26,6 +35,9 @@
                 <ListView x:Name="ClaimsListView" Height="150">
                     <ListView.View>
                         <GridView>
+                            <GridViewColumn Header="Name" DisplayMemberBinding="{Binding FirstName}" Width="80"/>
+                            <GridViewColumn Header="Last Name" DisplayMemberBinding="{Binding LastName}" Width="80"/>
+                            <GridViewColumn Header="Age" DisplayMemberBinding="{Binding Age}" Width="40"/>
                             <GridViewColumn Header="Type" DisplayMemberBinding="{Binding Type}" Width="100"/>
                             <GridViewColumn Header="Hours" DisplayMemberBinding="{Binding Hours}" Width="60"/>
                             <GridViewColumn Header="Rate" DisplayMemberBinding="{Binding Rate}" Width="60"/>

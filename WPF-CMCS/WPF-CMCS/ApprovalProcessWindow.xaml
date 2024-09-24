@@ -1,48 +1,29 @@
 ﻿<Window x:Class="WPF_CMCS.ApprovalProcessWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Approval Process" Height="600" Width="1000"
-        Background="#FFF3E0">
-        <Window.Resources>
-            <Style x:Key="ButtonStyle" TargetType="Button">
-                <Setter Property="Margin" Value="5"/>
-                <Setter Property="Height" Value="30"/>
-                <Setter Property="Width" Value="100"/>
-                <Setter Property="Foreground" Value="White"/>
-            </Style>
-        </Window.Resources>
-
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-
-            <TextBlock Text="Pending Claims for Approval" FontSize="20" FontWeight="Bold" Margin="20"/>
-
-            <ListView Name="PendingClaimsListView" Grid.Row="1" Margin="20">
+        Title="Approval Process" Height="450" Width="800">
+    <Grid>
+        <StackPanel Margin="20">
+            <TextBlock Text="Pending Claims:" Margin="0,0,0,10" FontWeight="Bold"/>
+            <ListView x:Name="PendingClaimsListView" Height="300">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="Claim ID" DisplayMemberBinding="{Binding ClaimID}"/>
-                        <GridViewColumn Header="User ID" DisplayMemberBinding="{Binding UserID}"/>
-                        <GridViewColumn Header="Submission Date" DisplayMemberBinding="{Binding SubmissionDate}"/>
-                        <GridViewColumn Header="Total Amount" DisplayMemberBinding="{Binding TotalAmount}"/>
-                        <GridViewColumn Header="Status" DisplayMemberBinding="{Binding Status}"/>
-                        <GridViewColumn Header="Actions">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Button Content="Approve" Style="{StaticResource ButtonStyle}" Background="#4CAF50" Click="ApproveButton_Click"/>
-                                        <Button Content="Reject" Style="{StaticResource ButtonStyle}" Background="#F44336" Click="RejectButton_Click"/>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
+                        <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" Width="40"/>
+                        <GridViewColumn Header="Name" DisplayMemberBinding="{Binding FirstName}" Width="80"/>
+                        <GridViewColumn Header="Last Name" DisplayMemberBinding="{Binding LastName}" Width="80"/>
+                        <GridViewColumn Header="Age" DisplayMemberBinding="{Binding Age}" Width="40"/>
+                        <GridViewColumn Header="Type" DisplayMemberBinding="{Binding Type}" Width="100"/>
+                        <GridViewColumn Header="Hours" DisplayMemberBinding="{Binding Hours}" Width="60"/>
+                        <GridViewColumn Header="Rate" DisplayMemberBinding="{Binding Rate}" Width="60"/>
+                        <GridViewColumn Header="Status" DisplayMemberBinding="{Binding Status}" Width="80"/>
                     </GridView>
                 </ListView.View>
             </ListView>
-
-            <TextBlock Name="StatusUpdateTextBlock" Grid.Row="2" Margin="20" FontWeight="Bold"/>
-        </Grid>
-    </Window>
+            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                <Button Content="Approve" Click="ApproveButton_Click" Width="100" Margin="0,0,10,0"/>
+                <Button Content="Reject" Click="RejectButton_Click" Width="100" Margin="0,0,10,0"/>
+                <Button Content="Request Info" Click="RequestInfoButton_Click" Width="100"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>
